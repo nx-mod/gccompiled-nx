@@ -1,22 +1,35 @@
 # gccompiled-nx
 
-GameCube games running natively on Nintendo Switch — statically recompiled from
-your own discs, not emulated. A game's PowerPC code is translated to C++ ahead
-of time and compiled for the Switch, with the console's system software answered
-natively rather than simulated.
+Turning a GameCube disc into a Switch program.
 
-Game code and data are never in this repository. You build from your own disc.
+A game's PowerPC code is translated to C++ ahead of time and compiled for the
+Switch; the console's system software is answered natively rather than
+simulated. This is the machinery that does it. Players want
+[gc-nx](https://github.com/nx-mod/gc-nx) instead.
 
 ```
 your disc  →  translator  →  game code + runtime  →  NRO
 ```
 
+Game code and data are never in this repository, and a build happens on the
+machine of whoever owns the disc.
+
+## One command
+
+```sh
+tools/gccompiled build mygame.iso
+```
+
+reads the disc, writes the project, scans the game for the natives the libraries
+can bind, translates its code, builds it, and leaves a program to copy to the
+card beside the dump.
+
 ## The engine is the Wii's
 
-There is no second translator and no second runtime. The GameCube and the Wii
-share a CPU core, a graphics pipeline, a sound chip and most of an SDK, so a
-GameCube game runs on the same engine a Wii game does, with a different console
-profile underneath.
+There is no second translator and no second runtime: the two consoles share a
+CPU core, a graphics pipeline, a sound chip and most of an SDK. A GameCube game
+runs on the same engine a Wii game does, with a different console profile
+underneath.
 
 | Library | Role |
 |---|---|
@@ -26,25 +39,25 @@ profile underneath.
 | [dawn-nx](https://github.com/nx-mod/dawn-nx) | WebGPU on Switch |
 | [nxvk](https://github.com/nx-mod/nxvk) | the Vulkan driver underneath |
 
-## Games
+## Per-game projects
 
-One folder per game in [gcgames-nx](gcgames-nx), holding what that game needs of
-its own: its symbol table, its bindings, and any native code only it requires.
+Each game gets a small project of its own, holding its symbol table, its
+bindings and any native code only that game needs. Good first targets, by how
+much is already known about each:
 
-Candidates, by how much is already known about each:
-
-| Game | Disc | Why it is a good first target |
+| Game | Disc | Why |
 |---|---|---|
-| Mario Kart: Double Dash!! | `GM4E01` | the sibling of the engine most of the natives were written against, with a CC0 decompilation |
+| Mario Kart: Double Dash!! | `GM4E01` | the sibling of the engine most natives were written against, with a CC0 decompilation |
 | Super Mario Sunshine | `GMSE01` | CC0 decompilation, JSystem throughout, and a THP video path already replaced natively |
 | The Wind Waker | `GZLE01` | CC0 decompilation, and its instruction coverage is proven by a separate port |
 | Twilight Princess | `GZ2E01` | the most complete decompilation of any GameCube game |
 
 ## Homebrew
 
-GameCube homebrew built on libogc needs no translation at all: the same source
-compiles against the platform layer directly and links as an NRO. Homebrew whose
-source was never released goes through the translator like a game.
+Homebrew built on libogc needs no translation: the same source compiles against
+the platform layer and links as an NRO. Homebrew whose source was never released
+goes through the translator like a game. See
+[libdol-nx's notes](https://github.com/nx-mod/libdol-nx/blob/main/docs/homebrew.md).
 
 ## License
 
