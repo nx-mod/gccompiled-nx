@@ -1,0 +1,12 @@
+# Nothing from a disc, ever.
+*.iso
+*.gcm
+*.rvz
+*.ciso
+*.dol
+*.rel
+disc/
+games/
+build/
+build-*/
+tools/local/
