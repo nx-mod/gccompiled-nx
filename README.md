@@ -45,12 +45,19 @@ Each game gets a small project of its own, holding its symbol table, its
 bindings and any native code only that game needs. Good first targets, by how
 much is already known about each:
 
-| Game | Disc | Why |
+Which disc matters: a decompilation matches one build, and the symbols only line
+up with that one.
+
+| Game | Disc to dump | Why |
 |---|---|---|
-| Mario Kart: Double Dash!! | `GM4E01` | the sibling of the engine most natives were written against, with a CC0 decompilation |
-| Super Mario Sunshine | `GMSE01` | CC0 decompilation, JSystem throughout, and a THP video path already replaced natively |
-| The Wind Waker | `GZLE01` | CC0 decompilation, and its instruction coverage is proven by a separate port |
+| Mario Kart: Double Dash!! | `GM4P01` PAL | ships a linker map, `debugInfoS.MAP`, and PAL is the retail build the CC0 decompilation matches - its other target is a Mario Club debug disc. The sibling of the engine most natives were written against |
+| Super Mario Sunshine | `GMSP01` PAL | ships `marioEU.MAP`; the decompilation covers PAL and JPN and not USA. JSystem throughout, and a THP video path already replaced natively |
+| The Wind Waker | `GZLE01` USA or `GZLP01` PAL | every retail disc ships full symbol maps, and the decompilation supports all of them. A separate static recompilation proves the instruction coverage |
 | Twilight Princess | `GZ2E01` | the most complete decompilation of any GameCube game |
+
+A map on the disc is worth more here than anything else: the symbol transfer
+reads one directly, and on the Wii side that took a game from ten bound natives
+to about three hundred and fifty.
 
 ## Homebrew
 
